@@ -1,0 +1,90 @@
+{% extends 'layout/layout_admin.html' %}
+
+{% block content %}
+<div class="d-flex flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2 me-3">Agregar producto</h1>
+</div>
+
+<div>
+
+    <form action="{{ url_for('productos_bp.agregar') }}" method="POST" enctype="multipart/form-data">
+
+        {{ form.csrf_token }}
+
+        <div class="row">
+
+            <div class="col-12">
+                <div class="lead mb-3">
+                    A continuacion diligencie los datos del producto a generar.
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="mb-3">
+                    <label class="form-label">Nombre</label>
+                    {{ form.pro_nombre(class_='form-control') }}
+                    <div class="form-text">Nombre del producto, titulo de la publicacion.</div>
+                </div>
+            </div>
+
+            <div class="col-6">
+                <div class="mb-3">
+                    <label class="form-label">Precio</label>
+                    {{ form.pro_precio(class_='form-control', type='Number') }}
+                    <div class="form-text">Precio en pesos COP.</div>
+                </div>
+            </div>
+
+            <div class="col-6">
+                <div class="mb-3">
+                    <label class="form-label">Descripcion</label>
+                    {{ form.pro_descripcion(class_='form-control') }}
+                    <div class="form-text">Descripcion o reseña de este producto.</div>
+                </div>
+            </div>
+
+            <div class="col-6">
+                <div class="mb-3">
+                    <label class="form-label">Imagen del producto</label>
+                    {{ form.pro_img(class_='form-control') }}
+                    <div class="form-text">Imagenes en formato jpg o png</div>
+                </div>
+            </div>
+
+            {% if form.errors | length > 0 %}
+            <div class="col-12">
+                <div class="alert shadow-sm alert-danger" role="alert">
+                    <ul>
+                        {% for _campo, _errores in form.errors.items() %}
+                        <li>{{ _errores[0] }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
+
+            {% if errors | length > 0 %}
+            <div class="col-12">
+                <div class="alert shadow-sm alert-danger" role="alert">
+                    <ul>
+                        {% for _error in errors %}
+                        <li>{{ _error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
+
+        </div>
+
+        <hr>
+
+        <div class="text-end">
+            <a href="{{ url_for('productos_bp.index') }}" class="btn btn-danger me-2">Cancelar</a>
+            <button type="submit" class="btn btn-success px-3">Guardar</button>
+        </div>
+
+    </form>
+
+</div>
+{% endblock %}

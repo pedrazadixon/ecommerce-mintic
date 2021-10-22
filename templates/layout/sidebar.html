@@ -1,0 +1,53 @@
+<style>
+    #sidebarMenu .nav-item.active {
+        background-color: rgb(33, 37, 41) !important;
+        border-radius: 5px;
+    }
+
+    #sidebarMenu .nav-item.active a {
+        color: white !important;
+    }
+</style>
+
+<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+    <div class="sidebar-sticky" style="height: calc(100vh - 168px);">
+        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 pt-4 mb-1 mb-3 text-muted">
+            <span>Modulos</span>
+            <a class="d-flex align-items-center text-muted" href="#" aria-label="Add a new report">
+            </a>
+        </h6>
+        <ul class="nav flex-column mb-2 ms-2">
+            <li class="nav-item {{ 'active' if 'lista_de_deseos_bp' in request.endpoint else '' }}">
+                <a class="nav-link text-black" href="{{ url_for('lista_de_deseos_bp.index') }}">
+                    Lista de deseos
+                </a>
+            </li>
+            <li class="nav-item {{ 'active' if 'comentarios_bp' in request.endpoint else '' }}">
+                <a class="nav-link text-black" href="{{ url_for('comentarios_bp.index') }}">
+                    Comentarios
+                </a>
+            </li>
+            <li class="nav-item {{ 'active' if 'productos_bp' in request.endpoint else '' }}">
+                <a class="nav-link text-black" href="{{ url_for('productos_bp.index') }}">
+                    Productos
+                </a>
+            </li>
+            <li class="nav-item {{ 'active' if 'usuarios_bp' in request.endpoint else '' }}">
+                <a class="nav-link text-black" href="{{ url_for('usuarios_bp.index') }}">
+                    Usuarios
+                </a>
+            </li>
+            <hr>
+            <li class="nav-item">
+                <a class="nav-link text-black" href="{{ url_for('index') }}">
+                    Ir a la Tienda
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-black" href="{{ url_for('usuarios_bp.cerrarSesion') }}">
+                    Cerrar Sesion
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>

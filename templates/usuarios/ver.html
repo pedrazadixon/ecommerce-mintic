@@ -1,0 +1,67 @@
+{% extends 'layout/layout_admin.html' %}
+
+{% block content %}
+<div class="d-flex flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2 me-3">Detalles de usuario</h1>
+</div>
+
+<div>
+
+    <div class="row">
+
+        <div class="col-12">
+            <div class="lead mb-3">
+                Datos del usuario.
+            </div>
+        </div>
+
+        <div class="col-6">
+            <div class="mb-3">
+                <label class="form-label">Nombres</label>
+                {{ form.usu_nombres(class_='form-control', readonly=True, disabled=True) }}
+                <div class="form-text">Nombres del usuario.</div>
+            </div>
+        </div>
+
+        <div class="col-6">
+            <div class="mb-3">
+                <label class="form-label">Apellidos</label>
+                {{ form.usu_apellidos(class_='form-control', readonly=True, disabled=True) }}
+                <div class="form-text">Apellidos del usuario.</div>
+            </div>
+        </div>
+
+        <div class="col-6">
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                {{ form.usu_email(class_='form-control', readonly=True, disabled=True) }}
+                <div class="form-text">Correo electronico del usuario.</div>
+            </div>
+        </div>
+
+        <div class="col-6">
+            <div class="mb-3">
+                <label class="form-label">Usuario</label>
+                {{ form.usu_usuario(class_='form-control', readonly=True, disabled=True) }}
+                <div class="form-text">Usuario para inicio de sesion.</div>
+            </div>
+        </div>
+
+        <div class="col-6">
+            <div class="mb-3">
+                <label class="form-label">Rol</label>
+                {{ form.usu_rol(class_='form-control', readonly=True, disabled=True) }}
+                <div class="form-text">Rol del usuario.</div>
+            </div>
+        </div>
+
+    </div>
+
+    <hr>
+
+    <div class="text-end">
+        <a href="{{ url_for('usuarios_bp.index') }}" class="btn btn-danger me-2">Volver</a>
+    </div>
+
+</div>
+{% endblock %}

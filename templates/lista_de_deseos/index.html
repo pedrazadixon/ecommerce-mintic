@@ -1,0 +1,79 @@
+{% extends 'layout/layout_admin.html' %}
+
+{% block content %}
+
+<div class="modal fade" id="eliminarModal" tabindex="-1" aria-labelledby="eliminarModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="eliminarModalLabel">Eliminar de Lista de deseos</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ¿Esta seguro que desea eliminar este producto de a lista de deseos?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <form action="{{ url_for('lista_de_deseos_bp.eliminar',) }}" method="POST">
+                    <input type="text" id="inp-eliminar-id" name="inp-eliminar-id" hidden>
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="d-flex flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2 me-3">Mi lista de deseos</h1>
+</div>
+
+<div>
+    <div class="row">
+
+        <div class="col-12">
+
+
+            <ul class="list-group">
+
+                {% for lista_de_deseo in lista_de_deseos %}
+                <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                    {{ lista_de_deseo.pro_nombre }}
+                    <div>
+                        <a href="{{ url_for('tienda_bp.producto', id=lista_de_deseo.pro_id) }}"
+                            class="btn btn-sm btn-outline-secondary">Ver
+                            producto</a>
+                        <a href="#" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal"
+                            data-eliminar-id="{{ lista_de_deseo.lis_id }}" data-bs-target="#eliminarModal">Eliminar</a>
+                    </div>
+                </li>
+                {% else %}
+                <h6>Aun no tiene productos en la lista de deseos.</h6>
+                {% endfor %}
+            </ul>
+
+        </div>
+
+
+    </div>
+
+</div>
+{% endblock %}
+
+
+{% block end_scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        // actualizo modal eliminar
+        var eliminarModal = document.getElementById('eliminarModal')
+        eliminarModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget
+            var eliminarId = button.getAttribute('data-eliminar-id')
+            var inputEliminarId = eliminarModal.querySelector('#inp-eliminar-id')
+            console.log(inputEliminarId)
+            inputEliminarId.value = eliminarId
+        })
+
+    });
+</script>
+{% endblock %}

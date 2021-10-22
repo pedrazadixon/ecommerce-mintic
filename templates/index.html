@@ -1,0 +1,60 @@
+{% extends 'layout/layout_default.html' %}
+
+{% block content %}
+<div class="bg-light pt-4">
+    <div class="container">
+
+        <section class="pb-4 jumbotron text-center">
+            <div class="container">
+                <h2>Nuestros productos</h2>
+            </div>
+        </section>
+
+        {% if productos | length == 0 %}
+        <div class="row text-center mb-3">
+            <h5>Aun no existen productos registrados...</h5>
+        </div>
+        {% endif %}
+
+        {% if request.args.get('q') %}
+        <div class="row mb-3">
+            <h6>Resultados de busqueda para <b>{{ request.args.get('q') }}</b></h6>
+        </div>
+        {% endif %}
+
+        <div class="row">
+
+            {% for producto in productos %}
+            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 mb-4">
+                <div class="card shadow-sm" style="max-width: 18rem; height: 24rem;">
+                    <img src="/static/img/productos/{{producto.pro_img}}" class="card-img-top" width="280" height="180">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ "${:,.0f}".format(producto.pro_precio) }}</h5>
+                        <p class="card-text">{{ producto.pro_nombre }}</p>
+                    </div>
+                    <div class="card-footer bg-white" style="text-align: end;">
+                        <div class="row justify-content-end">
+                            <div class="col-2 ">
+                                <form action="{{ url_for('lista_de_deseos_bp.agregar', id=producto.pro_id) }}"
+                                    method="post">
+                                    <button type="submit" class="btn btn-sm btn-outline-secondary"
+                                        title="Agregar a la lista de deseos">
+                                        <i class="bi-heart"></i>
+                                    </button>
+                                </form>
+                            </div>
+                            <div class="col-auto">
+                                <a href="{{ url_for('tienda_bp.producto', id=producto.pro_id) }}"
+                                    class="btn btn-sm btn-outline-secondary">Ver</a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+    </div>
+</div>
+{% endblock %}

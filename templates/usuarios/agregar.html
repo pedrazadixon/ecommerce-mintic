@@ -1,0 +1,114 @@
+{% extends 'layout/layout_admin.html' %}
+
+{% block content %}
+<div class="d-flex flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2 me-3">Agregar usuario</h1>
+</div>
+
+<div>
+
+    <form action="{{ url_for('usuarios_bp.agregar') }}" method="POST">
+
+        {{ form.csrf_token }}
+
+        <div class="row">
+
+            <div class="col-12">
+                <div class="lead mb-3">
+                    A continuacion diligencie los datos del usuario.
+                </div>
+            </div>
+
+            <div class="col-6">
+                <div class="mb-3">
+                    <label class="form-label">Nombres</label>
+                    {{ form.usu_nombres(class_='form-control') }}
+                    <div class="form-text">Nombres del usuario.</div>
+                </div>
+            </div>
+
+            <div class="col-6">
+                <div class="mb-3">
+                    <label class="form-label">Apellidos</label>
+                    {{ form.usu_apellidos(class_='form-control') }}
+                    <div class="form-text">Apellidos del usuario.</div>
+                </div>
+            </div>
+
+            <div class="col-6">
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    {{ form.usu_email(class_='form-control') }}
+                    <div class="form-text">Correo electronico del usuario.</div>
+                </div>
+            </div>
+
+            <div class="col-6">
+                <div class="mb-3">
+                    <label class="form-label">Usuario</label>
+                    {{ form.usu_usuario(class_='form-control') }}
+                    <div class="form-text">Usuario para inicio de sesion.</div>
+                </div>
+            </div>
+
+            <div class="col-6">
+                <div class="mb-3">
+                    <label class="form-label">Contraseña</label>
+                    {{ form.usu_password(class_='form-control') }}
+                    <div class="form-text">Contraseña para inicio de sesion.</div>
+                </div>
+            </div>
+
+            <div class="col-6">
+                <div class="mb-3">
+                    <label class="form-label">Contraseña</label>
+                    {{ form.usu_password2(class_='form-control') }}
+                    <div class="form-text">Repita la contraseña.</div>
+                </div>
+            </div>
+
+            <div class="col-6">
+                <div class="mb-3">
+                    <label class="form-label">Rol</label>
+                    {{ form.usu_rol(class_='form-select') }}
+                    <div class="form-text">Rol del usuario.</div>
+                </div>
+            </div>
+
+            {% if form.errors | length > 0 %}
+            <div class="col-12">
+                <div class="alert shadow-sm alert-danger" role="alert">
+                    <ul>
+                        {% for _campo, _errores in form.errors.items() %}
+                        <li>{{ _errores[0] }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
+
+            {% if errors | length > 0 %}
+            <div class="col-12">
+                <div class="alert shadow-sm alert-danger" role="alert">
+                    <ul>
+                        {% for _error in errors %}
+                        <li>{{ _error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
+
+        </div>
+
+        <hr>
+
+        <div class="text-end">
+            <a href="{{ url_for('usuarios_bp.index') }}" class="btn btn-danger me-2">Cancelar</a>
+            <button type="submit" class="btn btn-success px-3">Guardar</button>
+        </div>
+
+    </form>
+
+</div>
+{% endblock %}

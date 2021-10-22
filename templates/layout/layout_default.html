@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+
+{% include 'layout/head.html' %}
+
+<body>
+
+    <main>
+
+        {% include 'layout/header_public.html' %}
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert shadow-sm mx-4 mt-3 mb-0 alert-{{ category }}" role="alert">
+            <div> <strong> {{ message }}</strong> </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+
+    </main>
+
+    {% include 'layout/footer.html' %}
+
+</body>
+
+</html>

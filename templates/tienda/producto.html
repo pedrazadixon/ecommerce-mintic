@@ -1,0 +1,99 @@
+{% extends 'layout/layout_default.html' %}
+
+{% block content %}
+<div class=" py-4">
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-5">
+                <img src="/static/img/productos/{{producto.pro_img}}" class="img-fluid rounded">
+            </div>
+
+            <div class="col-7">
+
+                <div class="jumbotron mt-3">
+                    <h1 class="display-6"><strong>{{ producto.pro_nombre }}</strong></h1>
+                    <p class="display-6 mt-4">{{ "${:,.0f}".format(producto.pro_precio) }}</p>
+                    <hr class="my-5">
+                    <a class="btn btn-lg btn-dark me-2" href="{{ url_for('lista_de_deseos_bp.agregar', id=producto.pro_id) }}" role="button">Agregar a lista de
+                        deseos</a>
+                    <a class="btn btn-lg btn-dark" href="{{ url_for('index') }}" role="button">Volver a la
+                        tienda</a>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<div class="bg-light pb-4">
+    <div class="container">
+
+        <div class="row pt-4">
+            <div class="col-12">
+                <div>
+                    <h5 class="border-bottom pb-2">Descipcion</h5>
+                </div>
+                <p class="lead">{{ producto.pro_descripcion }}</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<a name="comentarios"></a>
+<div class="bg-light pb-5">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-12">
+                <div>
+                    <h5 class="border-bottom pb-2">Comentarios</h5>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            {% for comentario in comentarios %}
+            <a name="comentario-{{ comentario.com_id }}"></a>
+            <div class="d-flex text-muted pt-3">
+                <i class="bi bi-person-circle flex-shrink-0 me-3" style="font-size: 2rem; margin-top: -7px;"></i>
+                <p class="pb-3 mb-0 small lh-sm ">
+                    <strong class="d-block text-gray-dark">
+                        {{ comentario.usu_nombres }} {{ comentario.usu_apellidos }}
+                    </strong>
+                    {{ comentario.com_comentario }}
+                </p>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% if 'auth_id' in session %}
+        <form action="{{ url_for('comentarios_bp.agregar', prodId=producto.pro_id) }}" method="post">
+            <div class="row">
+                {{ form.csrf_token }}
+                <div class="col">
+                    {{ form.com_comentario(class_='form-control', placeholder='Nuevo comentario...') }}
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn btn-outline-secondary">Comentar</button>
+                </div>
+            </div>
+        </form>
+        {% else %}
+        <div class="row">
+            <h6><i class="ps-4">Para agregar comentarios debes iniciar sesion.</i></h6>
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+{% endblock %}
+
+
+{% block end_scripts %}
+
+{% endblock %}

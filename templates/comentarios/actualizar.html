@@ -1,0 +1,67 @@
+{% extends 'layout/layout_admin.html' %}
+
+{% block content %}
+<div class="d-flex flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2 me-3">Editar comentario</h1>
+</div>
+
+<div>
+
+    <form action="{{ url_for('comentarios_bp.actualizar', id=comentario.com_id) }}" method="POST">
+
+        {{ form.csrf_token }}
+
+        <div class="row">
+
+            <div class="col-12">
+                <div class="lead mb-3">
+                    Comentario del producto <strong>{{producto.pro_nombre}}</strong>.
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="mb-3">
+                    <!-- <label class="form-label">Comentario</label> -->
+                    {{ form.com_comentario(class_='form-control') }}
+                    <div class="form-text">Diligencie aqui su comentario.</div>
+                </div>
+            </div>
+
+        </div>
+
+        <hr>
+
+        <div class="text-end">
+            <a href="{{ url_for('comentarios_bp.index') }}" class="btn btn-danger me-2">Cancelar</a>
+            <button type="submit" class="btn btn-success px-3">Guardar</button>
+        </div>
+
+        {% if form.errors | length > 0 %}
+        <div class="col-12">
+            <div class="alert shadow-sm alert-danger" role="alert">
+                <ul>
+                    {% for _campo, _errores in form.errors.items() %}
+                    <li>{{ _errores[0] }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        
+        {% endif %}
+
+        {% if errors | length > 0 %}
+        <div class="col-12">
+            <div class="alert shadow-sm alert-danger" role="alert">
+                <ul>
+                    {% for _error in errors %}
+                    <li>{{ _error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        {% endif %}
+
+    </form>
+
+</div>
+{% endblock %}

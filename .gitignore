@@ -1,0 +1,5 @@
+__pycache__/
+*.py[cod]
+ecommerce.db
+static/img/productos/*
+!static/img/productos/empty

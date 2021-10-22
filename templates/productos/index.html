@@ -1,0 +1,87 @@
+{% extends 'layout/layout_admin.html' %}
+
+{% block content %}
+<div class="modal fade" id="eliminarModal" tabindex="-1" aria-labelledby="eliminarModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="eliminarModalLabel">Eliminar Producto</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ¿Esta seguro que desea eliminar este producto?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <form action="{{ url_for('productos_bp.eliminar') }}" method="POST">
+                    <input type="text" id="inp-eliminar-id" name="inp-eliminar-id" hidden>
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="d-flex flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2 me-3">Productos</h1>
+    <a href="{{ url_for('productos_bp.agregar') }}" class="btn btn-dark">Agregar Producto</a>
+</div>
+
+<div>
+
+    <table id="dataTable" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th style="max-width: 50px;">ID</th>
+                <th>Nombre del producto</th>
+                <th>Precio</th>
+                <th style="width: 200px;">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+            <tr>
+                <td>{{ product.pro_id }}</td>
+                <td>{{ product.pro_nombre }}</td>
+                <td>{{ "${:,.2f}".format(product.pro_precio) }}</td>
+                <td>
+                    <a href="{{ url_for('productos_bp.ver', id=product.pro_id) }}"
+                        class="btn btn-sm btn-outline-secondary">Detalles</a>
+                    <a href="{{ url_for('productos_bp.actualizar', id=product.pro_id) }}"
+                        class="btn btn-sm btn-outline-primary">Editar</a>
+                    <a href="#" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal"
+                        data-eliminar-id="{{ product.pro_id }}" data-bs-target="#eliminarModal">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+</div>
+{% endblock %}
+
+
+{% block end_scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        $('#dataTable').DataTable({
+            "bLengthChange": false,
+            "bSort": false,
+            language: {
+                url: "{{ url_for('static', filename='DataTables-1.11.3/es_es.json') }}"
+            }
+        });
+    });
+
+    // actualizo modal eliminar
+    var eliminarModal = document.getElementById('eliminarModal')
+    eliminarModal.addEventListener('show.bs.modal', function (event) {
+        var button = event.relatedTarget
+        var eliminarId = button.getAttribute('data-eliminar-id')
+        var inputEliminarId = eliminarModal.querySelector('#inp-eliminar-id')
+        console.log(inputEliminarId)
+        inputEliminarId.value = eliminarId
+    })
+</script>
+{% endblock %}
