@@ -10,18 +10,28 @@ from models.Producto import Producto as producto_model
 def index():
     if session['auth_rol'] == "usuariofinal":
         lista_de_deseos = lista_de_deseos_model.query.filter_by(lis_usuario_id = session['auth_id']).join(producto_model, lista_de_deseos_model.lis_producto_id== producto_model.pro_id).add_columns(lista_de_deseos_model.lis_id,producto_model.pro_id, producto_model.pro_nombre)
-        print(lista_de_deseos)
     else:
         lista_de_deseos = lista_de_deseos_model.query.join(producto_model, lista_de_deseos_model.lis_producto_id== producto_model.pro_id).add_columns(lista_de_deseos_model.lis_id,producto_model.pro_id, producto_model.pro_nombre)
     
     return render_template('lista_de_deseos/index.html', lista_de_deseos=lista_de_deseos)
 
 def eliminar():
+    errors = []
     id = request.form.get("inp-eliminar-id")
-    registro = lista_de_deseos_model.query.filter_by(lis_id=id).first()
-    lista_de_deseos_model.eliminar(registro)
-    flash('Eliminado correctamente.', 'info')
-    return redirect(url_for('lista_de_deseos_bp.index'))
+    
+    if session['auth_rol'] == "usuariofinal":
+        registro = lista_de_deseos_model.query.filter_by(lis_id=id, lis_usuario_id = session['auth_id']).first()
+    else: 
+        registro = lista_de_deseos_model.query.filter_by(lis_id=id).first()
+
+    result =lista_de_deseos_model.eliminar(registro)
+    if result != True:
+        flash('Este elemento de la lista de deseos no le pertenece.', 'info')
+        errors.append(result)
+    else:
+        flash('Eliminado correctamente.', 'info')
+        return redirect(url_for('lista_de_deseos_bp.index'))
+    return  redirect(url_for('lista_de_deseos_bp.index', errors=errors) )
 
 def agregar(id):
     errors = []

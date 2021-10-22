@@ -33,7 +33,7 @@ class ListaDeDeseo(db.Model):
             db.session.commit()
             return True
         except SQLAlchemyError as e:
-            error = str(e.__dict__['orig'])
+            error = str(e.code)
             return error
         finally:
             db.session.close()
