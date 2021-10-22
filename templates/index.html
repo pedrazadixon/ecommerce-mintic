@@ -17,8 +17,9 @@
         {% endif %}
 
         {% if request.args.get('q') %}
-        <div class="row mb-3">
+        <div class="alert alert-info d-flex justify-content-between align-items-center" role="alert">
             <h6>Resultados de busqueda para <b>{{ request.args.get('q') }}</b></h6>
+            <a href="{{ url_for('index') }}" class="btn btn-dark">Eliminar filtro</a>
         </div>
         {% endif %}
 
