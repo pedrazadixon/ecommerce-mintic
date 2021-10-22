@@ -34,21 +34,21 @@ def comprobarPermisos():
 
     if request.endpoint is not "static":
 
-        print(' ==** endpoint: %s' % (request.endpoint))
+        # print(' ==** endpoint: %s' % (request.endpoint))
 
         if 'auth_id' not in session and request.endpoint not in permisos_globales:
             flash('Antes debe iniciar sesion.', 'warning')
-            return redirect(url_for('index'))
+            return redirect(request.referrer)
 
         if 'auth_rol' in session and session['auth_rol'] == 'usuariofinal':
             if request.endpoint not in permisos_usuariofinal:
                 flash('Privilegios insufientes para acceder a este modulo.', 'warning')
-                return redirect(url_for('inicio_bp.index'))
+                return redirect(request.referrer)
 
         if 'auth_rol' in session and session['auth_rol'] == 'administrador':
             if request.endpoint not in permisos_administrador:
                 flash('Privilegios insufientes para acceder a este modulo.', 'warning')
-                return redirect(url_for('inicio_bp.index'))
+                return redirect(request.referrer)
 
 
 permisos_bp.before_app_request(comprobarPermisos)
