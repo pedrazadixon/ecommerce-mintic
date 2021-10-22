@@ -1,7 +1,7 @@
 import sys
 import os
 from os import remove
-from flask import render_template, redirect, url_for, request, abort, flash, Flask
+from flask import render_template, redirect, url_for, request, abort, flash, Flask, current_app
 from models.Producto import Producto as producto_model
 from forms.productos.agregar import Form as AgregarProductoForm
 import uuid
@@ -25,7 +25,8 @@ def agregar():
             image_name, extension = os.path.splitext(
                 form.pro_img.data.filename)
             image_name = str(uuid.uuid4()) + extension
-            file_path = os.path.join("static/img/productos/", image_name)
+            file_path = os.path.join(
+                current_app.root_path, "static", "img", "productos", image_name)
             form.pro_img.data.save(file_path)
             nuevo_producto.pro_img = image_name
 
@@ -65,8 +66,8 @@ def actualizar(id):
             image_name, extension = os.path.splitext(
                 form.pro_img.data.filename)
             image_name = str(uuid.uuid4()) + extension
-            file_path = os.path.join("static/img/productos/", image_name)
-            remove("static/img/productos/" + product.pro_img)
+            file_path = os.path.join(current_app.root_path, "static", "img", "productos", image_name)
+            remove(os.path.join(current_app.root_path, "static", "img", "productos", product.pro_img))
             form.pro_img.data.save(file_path)
             product.pro_img = image_name
 
@@ -83,7 +84,7 @@ def actualizar(id):
 def eliminar():
     id = request.form.get("inp-eliminar-id")
     registro = producto_model.query.filter_by(pro_id=id).first()
-    remove("static/img/productos/" + registro.pro_img)
+    remove(os.path.join(current_app.root_path, "static", "img", "productos", registro.pro_img))
     producto_model.eliminar(registro)
     flash('Eliminado correctamente.', 'info')
     return redirect(url_for('productos_bp.index'))
