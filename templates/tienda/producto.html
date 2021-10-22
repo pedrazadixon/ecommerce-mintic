@@ -37,7 +37,7 @@
                 <div>
                     <h5 class="border-bottom pb-2">Descipcion</h5>
                 </div>
-                <p class="lead">{{ producto.pro_descripcion }}</p>
+                <p class="lead">{{ producto.pro_descripcion | replace('\n', '<br>') | safe }}</p>
             </div>
         </div>
 
